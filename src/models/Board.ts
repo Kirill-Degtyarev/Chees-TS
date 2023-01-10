@@ -10,6 +10,7 @@ import { Cell } from './Cell';
 
 export class Board {
     cells: Cell[][] = [];
+    startGame: boolean = false;
     lostBlackFigure: Figure[] = [];
     lostWhiteFigure: Figure[] = [];
 
@@ -37,9 +38,14 @@ export class Board {
         }
     }
 
+    public updateStartGame() {
+        this.startGame = !this.startGame;
+    }
+
     public getCopyBoard(): Board {
         const newBoard = new Board();
         newBoard.cells = this.cells;
+        newBoard.startGame = this.startGame;
         newBoard.lostWhiteFigure = this.lostWhiteFigure;
         newBoard.lostBlackFigure = this.lostBlackFigure;
         return newBoard;

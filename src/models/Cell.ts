@@ -1,6 +1,7 @@
 import { Board } from './Board';
 import { Figure } from './figures/Figure';
 import { Colors } from './Colors';
+
 export class Cell {
     readonly x: number;
     readonly y: number;
@@ -17,7 +18,7 @@ export class Cell {
         this.figure = figure;
         this.board = board;
         this.available = false;
-        this.id = Math.random();
+        this.id = x + y;
     }
 
     isEnemy(target: Cell): boolean {
@@ -44,6 +45,7 @@ export class Cell {
         }
         return true;
     }
+
     isEmptyHorizontal(target: Cell): boolean {
         if (this.y !== target.y) {
             return false;
@@ -57,6 +59,7 @@ export class Cell {
         }
         return true;
     }
+
     isEmptyDiagonal(target: Cell): boolean {
         const absX = Math.abs(target.x - this.x);
         const absY = Math.abs(target.y - this.y);

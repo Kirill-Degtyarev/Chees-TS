@@ -16,24 +16,38 @@
     height: calc(64px * 8);
     display: flex;
     flex-wrap: wrap;
+    border: 20px solid #000;
 }
 
 .cell {
+    position: relative;
     width: 64px;
     height: 64px;
     display: flex;
     align-items: center;
     justify-content: center;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 .cell img {
     width: 48px;
     height: 48px;
     position: relative;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    transition: 0.3s ease all;
+}
+
+.current-figure:hover {
+    transform: scale(1.1);
 }
 
 .black {
-    background-color: deepskyblue;
+    background-color: #b58863;
 }
 
 .white {
@@ -56,4 +70,22 @@
     padding: 30px;
     margin-left: 50px;
     background-color: lightgray;
+}
+
+.number {
+    position: absolute;
+    top: 24px;
+    left: -15px;
+    color: #fafafa;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.alphabet {
+    position: absolute;
+    top: 64.5px;
+    left: 24px;
+    color: #fafafa;
+    font-size: 18px;
+    font-weight: 700;
 }

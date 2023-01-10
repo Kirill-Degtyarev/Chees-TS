@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import BoardComponent from './components/BoardComponent';
 import LostFigures from './components/LostFigures';
@@ -9,19 +9,25 @@ import { Player } from './models/Player';
 
 const App: React.FC = () => {
     const [board, setBoard] = useState(new Board());
-    const [whitePlayer] = useState(new Player(Colors.WHITE));
-    const [blackPlayer] = useState(new Player(Colors.BLACK));
+    const [whitePlayer] = useState(new Player(Colors.WHITE, 0));
+    const [blackPlayer] = useState(new Player(Colors.BLACK, 1));
     const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
 
-    useEffect(() => {
-        restart();
-        setCurrentPlayer(whitePlayer);
-    }, [whitePlayer]);
-
-    const restart = () => {
+    const restart = useCallback(() => {
         const newBoard = new Board();
         newBoard.initCells();
         newBoard.addFigures();
+        setCurrentPlayer(getRandomPlayer(11) <= 5 ? whitePlayer : blackPlayer);
+        setBoard(newBoard);
+    }, [whitePlayer, blackPlayer]);
+
+    useEffect(() => {
+        restart();
+        setCurrentPlayer(getRandomPlayer(11) <= 5 ? whitePlayer : blackPlayer);
+    }, [whitePlayer, blackPlayer, restart]);
+
+    const updateBoard = () => {
+        const newBoard = board.getCopyBoard();
         setBoard(newBoard);
     };
 
@@ -29,18 +35,31 @@ const App: React.FC = () => {
         setCurrentPlayer(currentPlayer?.color === Colors.WHITE ? blackPlayer : whitePlayer);
     };
 
+    const getRandomPlayer = (id: number): number => {
+        return Math.floor(Math.random() * id);
+    };
+
     return (
         <div className="app">
-            <Timer currentPlayer={currentPlayer} restart={restart} />
+            <Timer
+                currentPlayer={currentPlayer}
+                restart={restart}
+                board={board}
+                updateBoard={updateBoard}
+            />
             <BoardComponent
                 board={board}
-                setBoard={setBoard}
+                updateBoard={updateBoard}
                 currentPlayer={currentPlayer}
                 swapPlayer={swapPlayer}
             />
             <div>
-                <LostFigures title="Чёрные фигруры" figures={board.lostBlackFigure} />
-                <LostFigures title="Белые фигруры" figures={board.lostWhiteFigure} />
+                {!!board.lostBlackFigure.length && (
+                    <LostFigures title="Чёрные фигруры" figures={board.lostBlackFigure} />
+                )}
+                {!!board.lostWhiteFigure.length && (
+                    <LostFigures title="Белые фигруры" figures={board.lostWhiteFigure} />
+                )}
             </div>
         </div>
     );

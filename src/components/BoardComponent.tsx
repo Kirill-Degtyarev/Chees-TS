@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Board } from '../models/Board';
 import { Cell } from '../models/Cell';
 import { Player } from '../models/Player';
@@ -7,12 +7,22 @@ import CellComponent from './CellComponent';
 interface BoardProps {
     board: Board;
     currentPlayer: Player | null;
-    setBoard: (board: Board) => void;
+    updateBoard: () => void;
     swapPlayer: () => void;
 }
 
-const BoardComponent: React.FC<BoardProps> = ({ board, setBoard, currentPlayer, swapPlayer }) => {
+const BoardComponent: React.FC<BoardProps> = ({
+    board,
+    updateBoard,
+    currentPlayer,
+    swapPlayer,
+}) => {
     const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
+
+    const highlightCells = useCallback(() => {
+        board.highlightCells(selectedCell);
+        updateBoard();
+    }, [board, selectedCell, updateBoard]);
 
     useEffect(() => {
         highlightCells();
@@ -20,30 +30,25 @@ const BoardComponent: React.FC<BoardProps> = ({ board, setBoard, currentPlayer, 
     }, [selectedCell]);
 
     const click = (cell: Cell) => {
-        if (selectedCell && selectedCell !== cell && selectedCell.figure?.canMove(cell)) {
+        if (
+            selectedCell &&
+            selectedCell !== cell &&
+            selectedCell.figure?.canMove(cell) &&
+            board.startGame
+        ) {
             selectedCell.moveFigure(cell);
             swapPlayer();
             setSelectedCell(null);
         } else {
-            if (cell.figure?.color === currentPlayer?.color) {
+            if (cell.figure?.color === currentPlayer?.color && board.startGame) {
                 setSelectedCell(cell);
             }
         }
     };
 
-    const highlightCells = () => {
-        board.highlightCells(selectedCell);
-        updateBoard();
-    };
-
-    const updateBoard = () => {
-        const newBoard = board.getCopyBoard();
-        setBoard(newBoard);
-    };
-
     return (
         <div>
-            <h3>Текущий игрок: {currentPlayer?.color}</h3>
+            {board.startGame && <h3>Текущий игрок: {currentPlayer?.color}</h3>}
             <div className="board">
                 {board.cells.map((row, index) => (
                     <React.Fragment key={index}>
@@ -52,6 +57,7 @@ const BoardComponent: React.FC<BoardProps> = ({ board, setBoard, currentPlayer, 
                                 click={click}
                                 cell={cell}
                                 key={cell.id}
+                                currentPlayer={currentPlayer}
                                 selected={cell.x === selectedCell?.x && cell.y === selectedCell?.y}
                             />
                         ))}
