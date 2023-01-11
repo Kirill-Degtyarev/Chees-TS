@@ -1,0 +1,50 @@
+.wrapper {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(255, 201, 139);
+}
+
+.chees {
+    &__container {
+        max-width: 1440px;
+        margin: 0px auto;
+        padding: 15px 15px;
+        min-height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    &-body {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+    }
+}
+
+.user-info {
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.board-body {
+    flex: 0 1 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-info {
+    flex: 0 1 25%;
+}
+
+.results-game {
+    flex: 0 1 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}

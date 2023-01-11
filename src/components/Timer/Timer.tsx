@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Board } from '../models/Board';
-import { Colors } from '../models/Colors';
-import { Player } from '../models/Player';
+import { Board } from '../../models/Board';
+import { Colors } from '../../models/Colors';
+import { Player } from '../../models/Player';
+
+import styles from './Timer.module.scss';
 
 interface TimerProps {
     currentPlayer: Player | null;
@@ -78,14 +80,34 @@ const Timer: React.FC<TimerProps> = ({ currentPlayer, restart, updateBoard, boar
     };
 
     return (
-        <div>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-                {!board.startGame && <button onClick={startTimer}>Start Game</button>}
-                {board.startGame && <button onClick={stopTimer}>Stop Game</button>}
-                {board.startGame && <button onClick={handleRestart}>Restart Game</button>}
+        <div className={styles['timer-body']}>
+            <div className={styles['timer-body__button']}>
+                {!board.startGame && (
+                    <div className={styles.button} onClick={startTimer}>
+                        Start Game
+                    </div>
+                )}
+                {board.startGame && (
+                    <div className={styles.button} onClick={stopTimer}>
+                        Stop Game
+                    </div>
+                )}
+                {board.startGame && (
+                    <div className={styles.button} onClick={handleRestart}>
+                        Restart Game
+                    </div>
+                )}
             </div>
-            <h2>Чёрные - {getTime(blackTime)}</h2>
-            <h2>Белые - {getTime(whiteTime)}</h2>
+            {board.startGame && (
+                <div className={styles['timer-body__time']}>
+                    <h2 className={`${styles.time} ${styles['time-black']}`}>
+                        Чёрные - {getTime(blackTime)}
+                    </h2>
+                    <h2 className={`${styles.time} ${styles['time-white']}`}>
+                        Белые - {getTime(whiteTime)}
+                    </h2>
+                </div>
+            )}
         </div>
     );
 };

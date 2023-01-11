@@ -1,0 +1,11 @@
+.board {
+    box-sizing: content-box;
+    width: calc(64px * 8);
+    height: calc(64px * 8);
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    border: 20px solid #000;
+}

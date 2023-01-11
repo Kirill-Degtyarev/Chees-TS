@@ -1,6 +1,8 @@
 import React from 'react';
-import { Cell } from '../models/Cell';
-import { Player } from '../models/Player';
+import { Cell } from '../../models/Cell';
+import { Player } from '../../models/Player';
+
+import styles from './CellComponent.module.scss';
 
 interface CellProps {
     cell: Cell;
@@ -16,23 +18,24 @@ const CellComponent: React.FC<CellProps> = ({ cell, selected, click, currentPlay
 
     return (
         <div
-            className={['cell', cell.color, selected ? 'selected' : ''].join(' ')}
+            className={`${styles.cell} ${styles[cell.color]} ${selected ? styles.selected : ''} `}
+            // className={['cell', cell.color, selected ? 'selected' : ''].join(' ')}
             onClick={() => click(cell)}
             style={{ background: cell.available && cell.figure ? 'green' : '' }}>
-            {cell.x === 0 && <span className="number">{cell.y + 1}</span>}
-            {cell.available && !cell.figure && <div className="available"></div>}
+            {cell.x === 0 && <span className={styles.number}>{cell.y + 1}</span>}
+            {cell.available && !cell.figure && <div className={styles.available}></div>}
             {cell.figure?.logo && (
                 <img
                     src={cell.figure.logo}
                     className={
                         currentPlayer?.color === cell?.figure.color && cell.board.startGame
-                            ? 'current-figure'
+                            ? styles['current-figure']
                             : ''
                     }
                     alt="figure"
                 />
             )}
-            {cell.y === 7 && <span className="alphabet">{fieldId[cell.x]}</span>}
+            {cell.y === 7 && <span className={styles.alphabet}>{fieldId[cell.x]}</span>}
         </div>
     );
 };

@@ -1,5 +1,7 @@
 import React from 'react';
-import { Figure } from '../models/figures/Figure';
+import { Figure } from '../../models/figures/Figure';
+
+import styles from './LostFigures.module.scss';
 
 interface LostFiguresProps {
     title: string;
@@ -8,11 +10,11 @@ interface LostFiguresProps {
 
 const LostFigures: React.FC<LostFiguresProps> = ({ title, figures }) => {
     return (
-        <div className="lost">
+        <div className={styles.lost}>
             <h3>{title}</h3>
             {figures.map((figure) => (
                 <div key={figure.id}>
-                    {figure.name}{' '}
+                    {figure.name}
                     {figure.logo && <img width={20} height={20} src={figure.logo} alt="figure" />}
                 </div>
             ))}

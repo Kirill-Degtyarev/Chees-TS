@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Board } from '../models/Board';
-import { Cell } from '../models/Cell';
-import { Player } from '../models/Player';
-import CellComponent from './CellComponent';
+import { Board } from '../../models/Board';
+import { Cell } from '../../models/Cell';
+import { Player } from '../../models/Player';
+import CellComponent from '../Cell/CellComponent';
+
+import styles from './BoardComponent.module.scss';
 
 interface BoardProps {
     board: Board;
@@ -48,8 +50,7 @@ const BoardComponent: React.FC<BoardProps> = ({
 
     return (
         <div>
-            {board.startGame && <h3>Текущий игрок: {currentPlayer?.color}</h3>}
-            <div className="board">
+            <div className={styles.board}>
                 {board.cells.map((row, index) => (
                     <React.Fragment key={index}>
                         {row.map((cell) => (

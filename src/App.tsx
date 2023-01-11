@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import './App.css';
-import BoardComponent from './components/BoardComponent';
-import LostFigures from './components/LostFigures';
-import Timer from './components/Timer';
+import BoardComponent from './components/Board/BoardComponent';
+import LostFigures from './components/LostFigures/LostFigures';
+import Timer from './components/Timer/Timer';
 import { Board } from './models/Board';
 import { Colors } from './models/Colors';
 import { Player } from './models/Player';
+
+import './scss/fonts.scss';
+import './scss/_normalize.scss';
+import './scss/App.scss';
 
 const App: React.FC = () => {
     const [board, setBoard] = useState(new Board());
@@ -40,26 +43,37 @@ const App: React.FC = () => {
     };
 
     return (
-        <div className="app">
-            <Timer
-                currentPlayer={currentPlayer}
-                restart={restart}
-                board={board}
-                updateBoard={updateBoard}
-            />
-            <BoardComponent
-                board={board}
-                updateBoard={updateBoard}
-                currentPlayer={currentPlayer}
-                swapPlayer={swapPlayer}
-            />
-            <div>
-                {!!board.lostBlackFigure.length && (
-                    <LostFigures title="Чёрные фигруры" figures={board.lostBlackFigure} />
-                )}
-                {!!board.lostWhiteFigure.length && (
-                    <LostFigures title="Белые фигруры" figures={board.lostWhiteFigure} />
-                )}
+        <div className="wrapper">
+            <div className="chees__container">
+                <div className="chees-body">
+                    <div className="game-info">
+                        {board.startGame && (
+                            <h3 className="user-info">Текущий игрок: {currentPlayer?.color}</h3>
+                        )}
+                        <Timer
+                            currentPlayer={currentPlayer}
+                            restart={restart}
+                            board={board}
+                            updateBoard={updateBoard}
+                        />
+                    </div>
+                    <div className="board-body">
+                        <BoardComponent
+                            board={board}
+                            updateBoard={updateBoard}
+                            currentPlayer={currentPlayer}
+                            swapPlayer={swapPlayer}
+                        />
+                    </div>
+                    <div className="results-game">
+                        {!!board.lostBlackFigure.length && (
+                            <LostFigures title="Чёрные фигруры" figures={board.lostBlackFigure} />
+                        )}
+                        {!!board.lostWhiteFigure.length && (
+                            <LostFigures title="Белые фигруры" figures={board.lostWhiteFigure} />
+                        )}
+                    </div>
+                </div>
             </div>
         </div>
     );
