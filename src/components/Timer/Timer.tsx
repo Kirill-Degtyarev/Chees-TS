@@ -13,6 +13,7 @@ interface TimerProps {
 }
 
 const Timer: React.FC<TimerProps> = ({ currentPlayer, restart, updateBoard, board }) => {
+    const [firstPlay, setFirstPlay] = useState(false);
     const [blackTime, setBlackTime] = useState(300);
     const [whiteTime, setWhiteTime] = useState(300);
     const timer = useRef<null | ReturnType<typeof setInterval>>(null);
@@ -26,6 +27,7 @@ const Timer: React.FC<TimerProps> = ({ currentPlayer, restart, updateBoard, boar
 
     const startTimer = () => {
         if (!board.startGame) {
+            setFirstPlay(true);
             board.updateStartGame();
             updateBoard();
         }
@@ -49,6 +51,7 @@ const Timer: React.FC<TimerProps> = ({ currentPlayer, restart, updateBoard, boar
         if (timer.current) {
             clearInterval(timer.current);
         }
+        setFirstPlay(false);
         setWhiteTime(300);
         setBlackTime(300);
         restart();
@@ -98,7 +101,7 @@ const Timer: React.FC<TimerProps> = ({ currentPlayer, restart, updateBoard, boar
                     </div>
                 )}
             </div>
-            {board.startGame && (
+            {(board.startGame || firstPlay) && (
                 <div className={styles['timer-body__time']}>
                     <h2 className={`${styles.time} ${styles['time-black']}`}>
                         Чёрные - {getTime(blackTime)}
