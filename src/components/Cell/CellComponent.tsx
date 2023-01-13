@@ -24,13 +24,13 @@ const CellComponent: React.FC<CellProps> = ({ cell, selected, click, currentPlay
     const dragStartHandler = (e: React.DragEvent<HTMLDivElement>, cell: Cell) => {
         click(cell);
     };
-    // const dragEndHandler = (e: React.DragEvent<HTMLDivElement>) => {
-    //     console.log('2');
-    // };
-    // const dragOverHandler = (e: React.DragEvent<HTMLDivElement>, cell: Cell) => {
-    //     console.log(cell);
-    //     e.preventDefault();
-    // };
+    const dragEndHandler = (e: React.DragEvent<HTMLDivElement>) => {
+        console.log('2');
+    };
+    const dragOverHandler = (e: React.DragEvent<HTMLDivElement>, cell: Cell) => {
+        console.log(cell);
+        e.preventDefault();
+    };
     const dropHandler = (e: React.DragEvent<HTMLDivElement>, cell: Cell) => {
         e.preventDefault();
         click(cell);
@@ -41,9 +41,9 @@ const CellComponent: React.FC<CellProps> = ({ cell, selected, click, currentPlay
             className={getClass(cell, selected)}
             onClick={() => click(cell)}
             onDragStart={(e) => dragStartHandler(e, cell)}
-            // onDragLeave={(e) => dragEndHandler(e)}
-            // onDragEnd={(e) => dragEndHandler(e)}
-            // onDragOver={(e) => dragOverHandler(e, cell)}
+            onDragLeave={(e) => dragEndHandler(e)}
+            onDragEnd={(e) => dragEndHandler(e)}
+            onDragOver={(e) => dragOverHandler(e, cell)}
             onDrop={(e) => dropHandler(e, cell)}
             draggable={cell.board.startGame}>
             {cell.x === 0 && <span className={styles.number}>{cell.y + 1}</span>}
