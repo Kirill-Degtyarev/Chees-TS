@@ -8,17 +8,6 @@
     cursor: pointer;
     -webkit-user-select: none;
     user-select: none;
-    -webkit-user-drag: none;
-    img {
-        width: 48px;
-        height: 48px;
-        position: relative;
-        transition: 0.3s ease all;
-    }
-}
-
-.draggable {
-    cursor: grab;
     -webkit-user-drag: auto;
 }
 
@@ -46,8 +35,19 @@
 }
 
 .current-figure {
-    &:hover {
-        transform: scale(1.1);
+    svg {
+        position: relative;
+        transition: 0.3s ease all;
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+}
+
+.draggable {
+    svg {
+        cursor: grab;
+        -webkit-user-drag: auto;
     }
 }
 

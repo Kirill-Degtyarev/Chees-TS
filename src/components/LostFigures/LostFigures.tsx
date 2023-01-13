@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { Figure } from '../../models/figures/Figure';
+import SvgGenerator from '../../SvgGenerator/SvgGenerator';
 
 import styles from './LostFigures.module.scss';
 
@@ -24,8 +25,13 @@ const LostFigures: React.FC<LostFiguresProps> = ({ title, figures }) => {
                         <div className={styles['lost-figures__item']} key={figure.id}>
                             <h2 className={styles['lost-figures__item-name']}>{figure.name}</h2>
                             <div className={styles['lost-figures__item-logo']}>
-                                {figure.logo && (
-                                    <img width={20} height={20} src={figure.logo} alt="figure" />
+                                {figure && (
+                                    <SvgGenerator
+                                        id={figure.name}
+                                        color={figure.color}
+                                        width={26}
+                                        height={26}
+                                    />
                                 )}
                             </div>
                         </div>
